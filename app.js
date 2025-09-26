@@ -14,7 +14,12 @@ const db = mysql.createPool({
 });
 
 // OpenSearch client
-const osClient = new Client({ node: process.env.OS_ENDPOINT });
+// Use ECS environment variable OS_ENDPOINT, fallback to your URL
+const osClient = new Client({
+  node:
+    process.env.OS_ENDPOINT ||
+    "https://search-doctor-patient-penvxbipjkn67zune473j5uowq.ap-south-1.es.amazonaws.com",
+});
 
 // Create doctor
 app.post("/doctor", async (req, res) => {
