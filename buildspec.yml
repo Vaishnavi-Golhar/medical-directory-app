@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 183295416764.dkr.ecr.ap-south-1.amazonaws.com/doctor-patient-search
+  build:
+    commands:
+      - echo Build Docker image...
+      - docker build -t doctor-patient-search .
+      - docker tag doctor-patient-search:latest 183295416764.dkr.ecr.ap-south-1.amazonaws.com/doctor-patient-search:latest
+  post_build:
+    commands:
+      - echo Push Docker image to ECR...
+      - docker push 183295416764.dkr.ecr.ap-south-1.amazonaws.com/doctor-patient-search:latest
